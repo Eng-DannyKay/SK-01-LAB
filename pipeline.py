@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 import re
@@ -7,6 +8,9 @@ from datetime import datetime
 from pathlib import Path
 import logging
 import hashlib
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,8 +25,8 @@ logger = logging.getLogger(__name__)
 CONFIG = {
     "input_dir": Path("data/raw"),
     "output_dir": Path("data/processed"),
-    "crm_api_url": "https://api.shopstream.example.com/v2/customers",
-    "crm_api_key": "sk-xxxx",          # Use environment variable in production
+    "crm_api_url": os.environ.get("CRM_API_URL", "https://api.shopstream.example.com/v2/customers"),
+    "crm_api_key": os.environ.get("CRM_API_KEY"),
     "valid_regions": ["US", "EU", "APAC"],
     "email_regex": r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
     "quality_threshold": 0.95,         # 95% of records must pass each check
